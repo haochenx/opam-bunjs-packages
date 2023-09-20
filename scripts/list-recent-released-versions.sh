@@ -1,4 +1,4 @@
-#/bin/bash -e
+#!/bin/bash -e
 
 LISTING_COUNT_LIMIT=50
 # NB: it's known the currently we can only handle max 50 releases.

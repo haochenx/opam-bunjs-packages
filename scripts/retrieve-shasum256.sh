@@ -1,4 +1,4 @@
-#/bin/bash -e
+#!/bin/bash -e
 
 pushd () {
     command pushd "$@" > /dev/null

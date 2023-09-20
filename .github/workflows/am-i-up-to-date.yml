@@ -24,3 +24,4 @@ jobs:
           bun-version: latest
 
       - run: make check-new-releases check-known-checksums
+        shell: bash
