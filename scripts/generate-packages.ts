@@ -159,8 +159,13 @@ dev-repo: "git+https://github.com/oven-sh/bun.git"
 license: "MIT"
 build: [
   [ "unzip" "bun-${suffix}.zip" ]
-  [ "bash" "-c" "echo 'bin: [ \\"bun-${suffix}/bun\\" ]' > %{name}%.install" ]
-  [ "bun-${suffix}/bun" "--version" ] {with-test}
+  [ "chmod" "-R" "+x" "bun-${suffix}" ]
+  [ "mv" "bun-${suffix}/bun" "." ]
+  [ "./bun" "--version" ] {with-test}
+  [ "ln" "-s" "./bun" "bunx" ]
+  [ "chmod" "+x" "bunx" ]
+  [ "./bunx" "bun" "--version" ] {with-test}
+  [ "bash" "-c" "echo 'bin: [ \\"bun\\" \\"bunx\\" ]' > %{name}%.install" ]
 ]
 depends: []
 synopsis: "Incredibly fast JavaScript runtime, bundler, test runner, and package all in one"
@@ -175,7 +180,7 @@ dramatically reducing startup times and memory usage.
 Homepage: <https://github.com/oven-sh/bun>
 Release Notes: <${releaseNotesUrl}>
 """
-post-messages: [ "Command \`bun\` (v${version}) is installed by the bunjs package." ]
+post-messages: [ "Command \`bun\` and \`bunx\`  (v${version}) is installed by the bunjs package." ]
 extra-source "bun-${suffix}.zip" {
   src: "${zipUrl}"
   checksum: "sha256=${sha256Checksum}"
