@@ -2,7 +2,7 @@
 SHELL=/bin/bash
 
 .PHONY: check-setup help 
-.PHONY: regen-known query-new-releases check-new-releases
+.PHONY: regen-known query-new-releases check-new-releases check-known-checksums
 
 check-setup:
 	@which bun > /dev/null || (echo "Bun is not install. Hint: https://bun.sh/docs/installation" && exit 127)
@@ -16,6 +16,10 @@ query-new-releases: ## update data/known-versions.txt
 
 check-new-releases: query-new-releases ## run query-new-releases and check whether data/known-versions.txt was up-to-date
 	git diff --exit-code data/known-versions.txt
+
+check-known-checksums: query-new-releases ## check whether upstream changed checksums (against data/known-checksums/*)
+	echo data/known-checksums/*-shasum256.txt | xargs -n1 basename | cut -f1-2 -d'-' | xargs scripts/retrieve-shasum256.sh -s data/known-checksums -j data/jar.tmp.json >/dev/null
+	git diff --exit-code data/known-checksums
 
 help: ## Print this help message
 	@echo "List of available make commands";
