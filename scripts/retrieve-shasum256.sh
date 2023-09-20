@@ -9,14 +9,14 @@ popd () {
 }
 
 print_help_and_exit() {
-  echo "Usage: $(basename $0) [-v][-j jar_json] tag_name..."
+  echo "Usage: $(basename $0) [-v][-s checksum_files_destination_dir] -j jar_json tag_name..."
   exit 2
 }
 
 script_args=()
 while [ $OPTIND -le "$#" ]
 do
-    if getopts j:hv option
+    if getopts j:s:hv option
     then
         case $option
         in
@@ -25,6 +25,9 @@ do
             ;;
           j)
             JAR_JSON="$OPTARG"
+            ;;
+          s)
+            CHECKSUM_SAVE_DIR="$OPTARG"
             ;;
           v)
             VERBOSE=y
@@ -54,6 +57,16 @@ else
   echo "tempdir: $TEMPD"
 fi
 
+if [ -n "$CHECKSUM_SAVE_DIR" ]; then
+  if [ ! -e "$CHECKSUM_SAVE_DIR" ]; then
+    mkdir -p "$CHECKSUM_SAVE_DIR"
+  fi
+  if [ ! -d "$CHECKSUM_SAVE_DIR" ]; then
+    >&2 echo "-s option is not specifying a valid directory / path where a directory can be created"
+    print_help_and_exit
+  fi
+fi
+
 cp "$JAR_JSON" "$TEMPD/jar.json"
 pushd "$TEMPD"
 
@@ -70,3 +83,7 @@ done
 cat shasum256-all.json | jq --slurp ". | add"
 
 popd
+
+if [ -n "$CHECKSUM_SAVE_DIR" ]; then
+  cp "$TEMPD"/*-shasum256.txt "$CHECKSUM_SAVE_DIR"
+fi

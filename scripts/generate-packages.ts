@@ -8,6 +8,7 @@ import { mkdir } from 'node:fs/promises';
 /* PROGRAM ARGUMENTS
  * -j <jar.json> : specify jar file path
  * -d <dest> : specify output directory
+ * -s <checksum saving directory> : if specified, save checksum files to that directory
  * -D : debug
  * -v : verbose
  * -h : help
@@ -83,6 +84,7 @@ const variants: {
 const scriptDir = import.meta.dir;
 const jarSource = cliArgs["j"]
 const destDir = cliArgs["d"]
+const checksumSavingDir = cliArgs["s"]
 
 const jar: JarJsonShape = await (Bun.file(jarSource).json()
   .then(jar => {
@@ -105,7 +107,13 @@ if (verbose) {
 if (debug) console.log("variants definitions:", variants);
 
 if (verbose) console.log("retrieving checksums...");
-const checksumBag: ChecksumBagShape = await new Response(Bun.spawn(["/usr/bin/env", `${scriptDir}/retrieve-shasum256.sh`, "-j", jarSource, ...tagNames], {
+const checksumBag: ChecksumBagShape = await new Response(Bun.spawn([
+  "/usr/bin/env", `${scriptDir}/retrieve-shasum256.sh`,
+   "-j", jarSource,
+   ...(checksumSavingDir && typeof checksumSavingDir === "string"
+    ? ["-s", checksumSavingDir]
+    : []),
+   ...tagNames], {
   stderr: "inherit"
 }).stdout).json().catch(e => {
   console.error(`failed to run retrieve-shasum256.sh script`);
