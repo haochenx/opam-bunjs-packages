@@ -1,0 +1,4 @@
+opam-version: "2.0"
+browse: "https://github.com/haochenx/opam-bunjs-gen/blob/main/packages"
+upstream: "https://github.com/haochenx/opam-bunjs-gen/tree/main"
+announce: []
