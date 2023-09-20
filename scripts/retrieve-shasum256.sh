@@ -70,17 +70,17 @@ fi
 cp "$JAR_JSON" "$TEMPD/jar.json"
 pushd "$TEMPD"
 
-echo "" > shasum256-all.json
 for tag in "${script_args[@]}"; do
   if [ -n "$VERBOSE" ]; then echo processing $tag; fi
   if shasum_url=$(cat jar.json | jq -re ".[\"$tag\"].assets[\"SHASUMS256.txt\"].browser_download_url"); then
     shasum_file="$tag-shasum256.txt"
-    curl -sL "$shasum_url" > "$shasum_file"
-    cat "$shasum_file" | jq -R 'split("  ")' | jq -e --slurp "try map ({(.[1]): {sha256: .[0]}}) | add | {\"$tag\": .}" \
-      >> shasum256-all.json
+    (curl -sL "$shasum_url" > "$shasum_file"
+     cat "$shasum_file" | jq -R 'split("  ")' | jq -e --slurp "try map ({(.[1]): {sha256: .[0]}}) | add | {\"$tag\": .}" \
+      > $tag-shasum256.json) &
   fi
 done
-cat shasum256-all.json | jq --slurp ". | add"
+wait
+cat *-shasum256.json | jq --slurp ". | add"
 
 popd
 
