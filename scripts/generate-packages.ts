@@ -204,7 +204,8 @@ async function go({versionTagName, variantSuffix}) {
   await Bun.write(`${packageDir}/opam`, opamFileTemplate({
     suffix: variantSuffix, version, releaseNotesUrl, zipUrl, sha256Checksum, availabilityFilter
   }))
-  await Bun.write(`${packageDir}/bunjs.install`, opamInstallFileTemplate({suffix: variantSuffix}))
+  await mkdir(`${packageDir}/files`, {recursive: true});
+  await Bun.write(`${packageDir}/files/bunjs.install`, opamInstallFileTemplate({suffix: variantSuffix}))
 }
 
 await (async () => {

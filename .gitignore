@@ -1,3 +1,4 @@
+# ocaml
 *.annot
 *.cmo
 *.cma
@@ -30,3 +31,6 @@ _opam/
 
 # nodejs
 node_modules
+
+# repository specific
+!packages/**
