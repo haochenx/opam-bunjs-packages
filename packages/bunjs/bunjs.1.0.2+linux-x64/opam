@@ -5,7 +5,11 @@ homepage: "https://github.com/oven-sh/bun"
 bug-reports: "https://github.com/oven-sh/bun/issues"
 dev-repo: "git+https://github.com/oven-sh/bun.git"
 license: "MIT"
-build: [[ "unzip" "bun-linux-x64.zip" ]]
+build: [
+  [ "unzip" "bun-linux-x64.zip" ]
+  [ "bash" "-c" "echo 'bin: [ \"bun-linux-x64/bun\" ]' > %{name}%.install" ]
+  [ "bun-linux-x64/bun" "--version" ] {with-test}
+]
 depends: []
 synopsis: "Incredibly fast JavaScript runtime, bundler, test runner, and package all in one"
 description: """

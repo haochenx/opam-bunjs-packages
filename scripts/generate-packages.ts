@@ -157,7 +157,11 @@ homepage: "https://github.com/oven-sh/bun"
 bug-reports: "https://github.com/oven-sh/bun/issues"
 dev-repo: "git+https://github.com/oven-sh/bun.git"
 license: "MIT"
-build: [[ "unzip" "bun-${suffix}.zip" ]]
+build: [
+  [ "unzip" "bun-${suffix}.zip" ]
+  [ "bash" "-c" "echo 'bin: [ \\"bun-${suffix}/bun\\" ]' > %{name}%.install" ]
+  [ "bun-${suffix}/bun" "--version" ] {with-test}
+]
 depends: []
 synopsis: "Incredibly fast JavaScript runtime, bundler, test runner, and package all in one"
 description: """
@@ -179,10 +183,6 @@ extra-source "bun-${suffix}.zip" {
 available: ${availabilityFilter}` + "\n";
 }
 
-function opamInstallFileTemplate({suffix}) {
-  return `bin: [ "bun-${suffix}/bun" ]` + "\n";
-}
-
 async function go({versionTagName, variantSuffix}) {
   const entry = relevant[versionTagName];
   const variantEntry = variants[variantSuffix];
@@ -202,8 +202,6 @@ async function go({versionTagName, variantSuffix}) {
   await Bun.write(`${packageDir}/opam`, opamFileTemplate({
     suffix: variantSuffix, version, releaseNotesUrl, zipUrl, sha256Checksum, availabilityFilter
   }))
-  await mkdir(`${packageDir}/files`, {recursive: true});
-  await Bun.write(`${packageDir}/files/bunjs.install`, opamInstallFileTemplate({suffix: variantSuffix}))
 }
 
 await (async () => {
