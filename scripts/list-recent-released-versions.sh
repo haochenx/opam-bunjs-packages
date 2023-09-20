@@ -1,6 +1,8 @@
 #/bin/bash -e
 
 LISTING_COUNT_LIMIT=50
+# NB: it's known the currently we can only handle max 50 releases.
+# we will deal with this when we have to
 
 pushd () {
     command pushd "$@" > /dev/null
