@@ -151,8 +151,8 @@ if (debug) console.log("relevant:", relevant);
 
 function opamFileTemplate({suffix, version, releaseNotesUrl, zipUrl, sha256Checksum, availabilityFilter}) {
   return `opam-version: "2.0"
-name: "bunjs+${suffix}"
-version: "${version}"
+name: "bunjs"
+version: "${version}+${suffix}"
 maintainer: "haochenx@acm.org"
 authors: ["Jarred Sumner" "Bun Developers and Contributors"]
 homepage: "https://github.com/oven-sh/bun"
