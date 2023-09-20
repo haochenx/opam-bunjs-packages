@@ -151,8 +151,6 @@ if (debug) console.log("relevant:", relevant);
 
 function opamFileTemplate({suffix, version, releaseNotesUrl, zipUrl, sha256Checksum, availabilityFilter}) {
   return `opam-version: "2.0"
-name: "bunjs"
-version: "${version}+${suffix}"
 maintainer: "haochenx@acm.org"
 authors: ["Jarred Sumner" "Bun Developers and Contributors"]
 homepage: "https://github.com/oven-sh/bun"
@@ -163,7 +161,7 @@ build: [[ "unzip" "bun-${suffix}.zip" ]]
 depends: []
 synopsis: "Incredibly fast JavaScript runtime, bundler, test runner, and package all in one"
 description: """
-Bun (https://bun.js) is an all-in-one toolkit for JavaScript and TypeScript apps.
+Bun (https://bun.sh) is an all-in-one toolkit for JavaScript and TypeScript apps.
 It ships as a single executable called bun​.
 
 At its core is the Bun runtime, a fast JavaScript runtime designed as a drop-in replacement for Node.js.
