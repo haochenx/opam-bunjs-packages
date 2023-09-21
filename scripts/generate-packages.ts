@@ -169,11 +169,9 @@ dev-repo: "git+https://github.com/oven-sh/bun.git"
 license: "MIT"
 build: [
   [ "unzip" "bun-${suffix}.zip" ]
-  [ "chmod" "-R" "+x" "bun-${suffix}" ]
   [ "mv" "bun-${suffix}/bun" "." ]
   [ "./bun" "--version" ] {with-test}
   [ "ln" "-s" "./bun" "bunx" ]
-  [ "chmod" "+x" "bunx" ]
   [ "./bunx" "bun" "--version" ] {with-test}
   [ "bash" "-c" "echo 'bin: [ \\"bun\\" \\"bunx\\" ]' > %{name}%.install" ]
 ]
