@@ -6,9 +6,9 @@ bug-reports: "https://github.com/oven-sh/bun/issues"
 dev-repo: "git+https://github.com/oven-sh/bun.git"
 license: "MIT"
 build: [
-  [ "unzip" "bun-linux-x64.zip" ]
-  [ "chmod" "-R" "+x" "bun-linux-x64" ]
-  [ "mv" "bun-linux-x64/bun" "." ]
+  [ "unzip" "bun-linux-x64-baseline.zip" ]
+  [ "chmod" "-R" "+x" "bun-linux-x64-baseline" ]
+  [ "mv" "bun-linux-x64-baseline/bun" "." ]
   [ "./bun" "--version" ] {with-test}
   [ "ln" "-s" "./bun" "bunx" ]
   [ "chmod" "+x" "bunx" ]
@@ -26,11 +26,11 @@ It's written in Zig and powered by JavaScriptCore under the hood,
 dramatically reducing startup times and memory usage.
 
 Homepage: <https://github.com/oven-sh/bun>
-Release Notes: <https://api.github.com/repos/oven-sh/bun/releases/120820201>
+Release Notes: <https://api.github.com/repos/oven-sh/bun/releases/121316652>
 """
-post-messages: [ "Command `bun` and `bunx`  (v1.0.1) is installed by the bunjs package." ]
-extra-source "bun-linux-x64.zip" {
-  src: "https://github.com/oven-sh/bun/releases/download/bun-v1.0.1/bun-linux-x64.zip"
-  checksum: "sha256=4668275931ba91379b63021afd5030bef2666cbf8044d0be1e46c5e2624f17ba"
+post-messages: [ "Command `bun` and `bunx`  (v1.0.2) is installed by the bunjs package." ]
+extra-source "bun-linux-x64-baseline.zip" {
+  src: "https://github.com/oven-sh/bun/releases/download/bun-v1.0.2/bun-linux-x64-baseline.zip"
+  checksum: "sha256=8187d5e71604dad78bc737df1ca4263922b949d22c41dcf541b2be57f5da2a94"
 }
 available: os = "linux" & arch = "x86_64" & os-distribution != "alpine"

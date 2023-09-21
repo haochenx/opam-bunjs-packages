@@ -74,7 +74,14 @@ const variants: {
       additional_filter_clause: `os-distribution != "alpine"`,
     }
   },
-  "linux-x64": {
+/*   "linux-x64": {
+    opam_filters: {
+      os_filter: `os = "linux"`,
+      arch_filter: `arch = "x86_64"`,
+      additional_filter_clause: `os-distribution != "alpine"`,
+    }
+  }, */
+  "linux-x64-baseline": {
     opam_filters: {
       os_filter: `os = "linux"`,
       arch_filter: `arch = "x86_64"`,
