@@ -33,4 +33,4 @@ extra-source "bun-linux-x64.zip" {
   src: "https://github.com/oven-sh/bun/releases/download/bun-v1.0.1/bun-linux-x64.zip"
   checksum: "sha256=4668275931ba91379b63021afd5030bef2666cbf8044d0be1e46c5e2624f17ba"
 }
-available: os = "linux" & arch = "x86_64"
+available: os = "linux" & arch = "x86_64" & os-distribution != "alpine"

@@ -51,6 +51,7 @@ const variants: {
     opam_filters: {
       arch_filter: string;
       os_filter: string;
+      additional_filter_clause?: string;
     };
   }
 } = {
@@ -70,12 +71,14 @@ const variants: {
     opam_filters: {
       os_filter: `os = "linux"`,
       arch_filter: `arch = "arm64"`,
+      additional_filter_clause: `os-distribution != "alpine"`,
     }
   },
   "linux-x64": {
     opam_filters: {
       os_filter: `os = "linux"`,
-      arch_filter: `arch = "x86_64"`
+      arch_filter: `arch = "x86_64"`,
+      additional_filter_clause: `os-distribution != "alpine"`,
     }
   },
 };
@@ -202,7 +205,11 @@ async function go({versionTagName, variantSuffix}) {
   const sha256Checksum = assetEntry.checksums.sha256;
   const releaseNotesUrl = entry.url;
   const zipUrl = assetEntry.browser_download_url;
-  const availabilityFilter = `${variantEntry.opam_filters.os_filter} & ${variantEntry.opam_filters.arch_filter}`
+  const availabilityFilter =
+   `${variantEntry.opam_filters.os_filter} & ${variantEntry.opam_filters.arch_filter}`
+   + (variantEntry.opam_filters.additional_filter_clause
+    ? ` & ${variantEntry.opam_filters.additional_filter_clause}`
+    : "");
 
   await Bun.write(`${packageDir}/opam`, opamFileTemplate({
     suffix: variantSuffix, version, releaseNotesUrl, zipUrl, sha256Checksum, availabilityFilter
