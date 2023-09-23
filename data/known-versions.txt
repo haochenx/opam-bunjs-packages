@@ -47,4 +47,5 @@ bun-v0.8.1
 bun-v1.0.0
 bun-v1.0.1
 bun-v1.0.2
+bun-v1.0.3
 canary
