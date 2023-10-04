@@ -1,0 +1,34 @@
+opam-version: "2.0"
+maintainer: "haochenx@acm.org"
+authors: ["Jarred Sumner" "Bun Developers and Contributors"]
+homepage: "https://github.com/oven-sh/bun"
+bug-reports: "https://github.com/oven-sh/bun/issues"
+dev-repo: "git+https://github.com/oven-sh/bun.git"
+license: "MIT"
+build: [
+  [ "unzip" "bun-darwin-aarch64.zip" ]
+  [ "mv" "bun-darwin-aarch64/bun" "." ]
+  [ "./bun" "--version" ] {with-test}
+  [ "ln" "-s" "./bun" "bunx" ]
+  [ "./bunx" "bun" "--version" ] {with-test}
+  [ "bash" "-c" "echo 'bin: [ \"bun\" \"bunx\" ]' > %{name}%.install" ]
+]
+depends: []
+synopsis: "Incredibly fast JavaScript runtime, bundler, test runner, and package all in one"
+description: """
+Bun (https://bun.sh) is an all-in-one toolkit for JavaScript and TypeScript apps.
+It ships as a single executable called bun​.
+
+At its core is the Bun runtime, a fast JavaScript runtime designed as a drop-in replacement for Node.js.
+It's written in Zig and powered by JavaScriptCore under the hood,
+dramatically reducing startup times and memory usage.
+
+Homepage: <https://github.com/oven-sh/bun>
+Release Notes: <https://api.github.com/repos/oven-sh/bun/releases/123478793>
+"""
+post-messages: [ "Command `bun` and `bunx`  (v1.0.4) is installed by the bunjs package." ]
+extra-source "bun-darwin-aarch64.zip" {
+  src: "https://github.com/oven-sh/bun/releases/download/bun-v1.0.4/bun-darwin-aarch64.zip"
+  checksum: "sha256=928d031426147eec30deaaf3e3251d7ba32be323d570c270c0676b1bd162c218"
+}
+available: os = "macos" & arch = "arm64"
